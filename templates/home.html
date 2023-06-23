@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}HOME PAGE{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="/static/home/stylesheet.css">
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script>
+
+        
+document.addEventListener('DOMContentLoaded', function() {
+            const myTimeout = setTimeout(lol, 10200);
+            function lol(){
+                $('.flight_gif').addClass("flying");
+                let time = 0;
+            const animation = setInterval(ani,1000);
+            function ani(){
+                if (time == 0){
+                    $('.a').removeClass("hide")
+                    $('.a').addClass("show");
+                }
+                else if (time == 2){
+                    $('.b').removeClass("hide")
+                    $('.b').addClass("show");
+                }
+                else if (time == 3){
+                    $('.c').removeClass("hide")
+                    $('.c').addClass("show");
+                }
+                else if (time == 4){
+                    $('.d').removeClass("hide")
+                    $('.d').addClass("show");
+                }
+                time = time + 1;
+       
+            }
+                clearTimeout(myTimeout);
+            }
+            
+        }, false);
+    
+</script>
+{% endblock %}
+
+{% block body %}
+<div class="box">
+    <h1 class="a hide">SEARCH,</h1>
+    <h1 class="b hide">BOOK,</h1>
+    <h1 class="c hide">ENJOY,</h1>
+    <h1 class="d hide">YOUR FLIGHT</h1>
+
+</div>
+<img class="flight_gif" style="width: 100%;" src="/static/home/flight.gif">
+{% endblock %}

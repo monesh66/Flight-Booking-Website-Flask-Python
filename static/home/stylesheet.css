@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Patua+One&display=swap');
+*{
+    margin: 0;
+    border: 0;
+}
+
+.box{
+    position: absolute;
+    top: 150px;
+    right: 100px;
+    font-family: 'Patua One', cursive;
+}
+.flight_gif {
+    transform: translateY(0%);
+    z-index: -1 ;
+    position: absolute;
+}
+.flight_gif{
+    
+    animation: flight_down_animation 10s ;
+    animation-timing-function: linear;
+}
+@keyframes flight_down_animation{
+    0%{transform: translateY(-100%);}
+    10%{transform: translateY(-100%);}
+    20%{transform: translateY(-100%);}
+    30%{transform: translateY(-90%);}
+    40%{transform: translateY(-70%);}
+    50%{transform: translateY(-50%);}
+    60%{transform: translateY(-35%);}
+    70%{transform: translateY(-20%);}
+    80%{transform: translateY(-10%);}
+    90%{transform: translateY(-5%);}
+    100%{transform: translateY(0%)}
+
+}
+.flying{
+    animation: flight_flying_animation 20s infinite;
+    animation-timing-function: linear;
+}
+@keyframes flight_flying_animation{
+    0%{transform: translateY(0%);}
+    10%{transform: translateY(-2%);}
+    20%{transform: translateY(-7%);}
+    30%{transform: translateY(-11%);}
+    40%{transform: translateY(-15%);}
+    50%{transform: translateY(-17%);}
+    60%{transform: translateY(-15%);}
+    70%{transform: translateY(-11%);}
+    80%{transform: translateY(-7%);}
+    90%{transform: translateY(-2%);}
+    100%{transform: translateY(0%)}
+}
+
+@keyframes show{
+    0%{transform: translateY(-200%); color: rgba(0, 0, 0, 0);}
+    20%{transform: translateY(-150%); color: rgba(0, 0, 0, 0.200);}
+    40%{transform: translateY(-100%);color: rgba(0, 0, 0, 0.400);}
+    60%{transform: translateY(-50%);color: rgba(0, 0, 0, 0.600);}
+    80%{transform: translateY(-20%); color: rgba(0, 0, 0, 0.800);}
+    100%{transform: translateY(-5%); color: rgb(0, 0, 1);}
+}
+.hide{
+    color: rgba(0, 0, 0, 0);
+}
+.show{
+    color: rgb(0, 0, 1);
+    animation: show 1s;
+    animation-timing-function: linear;
+}
+.a, .b, .c, .d{
+    z-index: -1 ;
+    
+}

@@ -1,0 +1,40 @@
+*{
+    margin: 0;
+    border: 0;
+}
+.searchBox{
+    display: flex;
+    margin-left: 140px;
+    width: 1200px;
+    height: 100px;
+    background-image: linear-gradient(90deg,rgb(115, 115, 246),rgb(55, 55, 246));
+    margin-top: 100px;
+    border-radius: 20px;
+
+}
+.searchBox div{
+    border-right: solid 1px white;
+    border-left: solid 1px white;
+}
+.fromBox{
+    text-align: center;
+    padding-left: 60px;
+    padding-right: 60px;
+}
+.toBox{
+    text-align: center;
+    padding-left: 60px;
+    padding-right: 60px;
+}
+.dateBox{
+    text-align: center;
+    padding-left: 60px;
+    padding-right: 60px;    
+}
+select{
+    height: 30px;
+    width: 300px;
+    border-radius: 20px;
+    background-color: rgb(79, 174, 225);
+}
+
