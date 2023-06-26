@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}SEARCH FLIGHT{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="/static/flight-list/stylesheet.css">
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbit&family=Roboto+Mono&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@700&family=Orbit&family=Roboto+Mono&display=swap" rel="stylesheet">
+{% endblock %}
+
+
+{% block body %}
+<div class="main">
+    <div class="left">
+        <div class="departure">
+            <h1>Departure Airport</h1>
+            <h2>{{ departure_airport }}</h2>
+        </div>
+        <div class="aravial">
+            <h1>Aravial Airport</h1>
+            <h2>{{ aravial_airport }}</h2>
+        </div>
+        <div class="date">
+            <h1>Date</h1>
+            <h2>{{ date }}</h2>
+        </div>
+        
+
+    </div>
+
+    <div class="right">
+        
+        {% for data in datas %}
+        <div class="flight-box">
+            <div class="flight-img">
+                {% if data[0] == 'SpiceJet' %}
+                    <img src="/static/flight-list/SpiceJet.png" style="height: 100px; margin-top: 20px; margin-left: 20px;" >
+                    <p style="color: rgb(80, 80, 80); margin-left: 47px; font-size: 22px;">SpiceJet</p>
+                {% elif data[0] == 'Air India' %}
+                    <img src="/static/flight-list/Air-India-Express.png" style="height: 100px; margin-top: 20px; margin-left: 20px;" >
+                    <p style="color: rgb(80, 80, 80); margin-left: 47px; font-size: 22px;">Air India</p>
+
+                {% endif %}
+            </div>
+            <div class="from-time">
+                <p style="margin-top: 20px; color: rgb(120, 120, 120);">Takeoff</p>
+                <p style="font-size: 40px;font-family: 'Bebas Neue', sans-serif;font-family: 'Orbit', sans-serif;font-family: 'Roboto Mono', monospace;">{{ data[1] }}</p>
+            </div>
+            <div class="to-time">
+                <p style="margin-top: 20px;color: rgb(120, 120, 120);">Landing</p>
+                <p style="font-size: 40px;font-family: 'Bebas Neue', sans-serif;font-family: 'Orbit', sans-serif;font-family: 'Roboto Mono', monospace;">{{ data[2] }}</p>
+            </div>
+            <div class="duration">
+                <p style="margin-top: 20px;color: rgb(120, 120, 120);">Duration</p>
+                <p style="font-size: 40px;font-family: 'Bebas Neue', sans-serif;font-family: 'Orbit', sans-serif;font-family: 'Roboto Mono', monospace;">{{ data[3] }}</p>
+            </div>
+            <div class="rate">
+                <p style="font-family: 'Bebas Neue', sans-serif;font-family: 'Inter', sans-serif;font-family: 'Orbit', sans-serif;font-family: 'Roboto Mono', monospace;margin-top: 40px;color: rgb(241, 63, 9);">₹{{ data[4] }}</p>
+            </div>
+            <div class="button">
+                <li><a href='{{ data[5] }}' ><b>Book</b></a></li>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+
+
+
+{% endblock %}

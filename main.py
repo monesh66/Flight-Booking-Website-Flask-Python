@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 from flask_session import Session
 import mysql.connector
+import datetime
 
 
 
@@ -174,9 +175,38 @@ def logout():
     return redirect(url_for('home'))
 
 
-#====================================== /book-now ===================================
+ #====================================== /flight-redirect ===================================
+@app.route('/flight-redirect',methods=['POST'])
+def data_to_url():
+    
+    url = "http://localhost:5000/flight/"
+    
+    From = request.form['From']
+    To = request.form['To']
+    Date = request.form['Date']
+    
+    db.execute("SELECT ID FROM AIRPORT_NAME_ID WHERE NAME = '{0}';".format(From))
+    departure_airport_id = db.fetchone()
+    
+    db.execute("SELECT ID FROM AIRPORT_NAME_ID WHERE NAME = '{0}';".format(To))
+    aravial_airport_id = db.fetchone()
+    
+    
+    url = str(url) + str(departure_airport_id[0])+ "-" +str(aravial_airport_id[0]) + "-" + str(Date)
+    
+    
+    
+    
+    return redirect(url, code=302)
+    
+    
+
+
+
+#====================================== /flight ===================================
 @app.route('/flight')
 def book_now():
+    #/flight/CHI-TRI-10-07-2023/12341
     if not session.get("username"):
         flash("Login to access")
         return render_template('login.html',username="User",logined=0)
@@ -186,13 +216,47 @@ def book_now():
         username = session.get("username")
         login_status = 1
         departure_airport = ["Chennai International Airport","Coimbatore International Airport","Madurai International Airport","Tiruchirapalli International Airport"]
+        aravial_airport = ["Chennai International Airport","Coimbatore International Airport","Madurai International Airport","Tiruchirapalli International Airport"]
+        
+        db.execute("SELECT NAME FROM AIRPORT_NAME_ID")
+        departure_airport = db.fetchall()
+        aravial_airport = departure_airport
 
-    return render_template('book_now.html',username=username,logined=login_status,departure_airport=departure_airport)
+
+        return render_template('book_now.html',username=username,logined=login_status,departure_airport=departure_airport,aravial_airport=aravial_airport)
+
+
+
+
 
 
 @app.route('/flight/<search>')
 def search(search):
-    return search
+    
+    departure_id = search[0:3]
+    aravial_id = search[4:7]
+    date = search[8:]
+    
+    db.execute("SELECT NAME FROM AIRPORT_NAME_ID WHERE ID='{0}';".format(departure_id))
+    departure_airport = db.fetchone()
+    
+    db.execute("SELECT NAME FROM AIRPORT_NAME_ID WHERE ID='{0}';".format(aravial_id))
+    aravial_airport = db.fetchone()
+    x = datetime.datetime(int(search[8:12]),int(search[13:15]),int(search[16:18]))
+    
+    date1 = str(x.strftime("%d"))+" ("+str(x.strftime("%A"))+") "+str(x.strftime("%B"))+" "+str(x.strftime("%Y"))
+
+    
+    data = [['Air India','12:30','3:30','3 Hrs','9,999','{0}/1002'],['SpiceJet','12:50','2:30','1.5 Hrs','7,568','{0}/1003'],['Air India','12:30','3:30','3 Hrs','9,999','{0}/1002'],['SpiceJet','12:50','2:30','1.5 Hrs','7,568','{0}/1003']]
+    
+    
+    
+    
+    return render_template('flight_list.html',departure_airport=departure_airport[0],aravial_airport=aravial_airport[0],date = date1,datas=data)
+
+
+
+
 
 
 
@@ -205,7 +269,7 @@ def flight_page(search,flight_id):
 
 
 
-
+#app.run(debug=True, port=5001)
 
 
 #if __name__ == "__main__":

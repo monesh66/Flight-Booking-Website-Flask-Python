@@ -8,13 +8,15 @@
 {% endblock %}
 
 {% block body %}
+<form action="http://localhost:5000/flight-redirect" method="post">
 <div class="searchBox">
+    
     <div class="fromBox">
         <h2>From</h2>
         <select name="From">
-            <option style="height: 30px;font-size: 20px;" value="null">=======Select Airport=======</option>
+            <option style="height: 30px;font-size: 20px;" value="null">Select Airport</option>
             {% for airport in departure_airport %}
-                <option style="height: 30px;font-size: 20px;" value="{{ airport }}">{{ airport }}</option>
+                <option style="height: 30px;font-size: 20px;" value="{{ airport[0] }}">{{ airport[0] }}</option>
             {% endfor %}
         </select>
     </div>
@@ -22,16 +24,21 @@
     <div class="toBox">
         <h2>To</h2>
         <select name="To">
-            <option style="height: 30px;font-size: 20px;" value="null">=======Select Airport=======</option>
+            <option style="height: 30px;font-size: 20px;" value="null">Select Airport</option>
             {% for airport in aravial_airport %}
-                <option style="height: 30px;font-size: 20px;" value="{{ airport }}">{{ airport }}</option>
+                <option style="height: 30px;font-size: 20px;" value="{{ airport[0] }}">{{ airport[0] }}</option>
             {% endfor %}
         </select>
     </div>
 
     <div class="dateBox">
         <h2>Date</h2>
-        <input name="date" type="date">
+        <input name="Date" type="date">
     </div>
+    <img style="height: 70px; width: 70px; margin-top: 15px;margin-left: 10px;" src="/static/book_now/search.png">
+
 </div>
+
+<button type="submit" >Search Flight</button>
+</form>
 {% endblock %}
