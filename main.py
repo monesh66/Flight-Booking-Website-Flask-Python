@@ -233,26 +233,47 @@ def book_now():
 @app.route('/flight/<search>')
 def search(search):
     
-    departure_id = search[0:3]
-    aravial_id = search[4:7]
-    date = search[8:]
+    if not session.get("username"):
+        flash("Login to access")
+        return render_template('login.html',username="User",logined=0)
     
-    db.execute("SELECT NAME FROM AIRPORT_NAME_ID WHERE ID='{0}';".format(departure_id))
-    departure_airport = db.fetchone()
+    else:
+        username = session.get("username")
+        login_status = 1
+        departure_id = search[0:3]
+        aravial_id = search[4:7]
+        date = search[8:]
     
-    db.execute("SELECT NAME FROM AIRPORT_NAME_ID WHERE ID='{0}';".format(aravial_id))
-    aravial_airport = db.fetchone()
-    x = datetime.datetime(int(search[8:12]),int(search[13:15]),int(search[16:18]))
+        db.execute("SELECT NAME FROM AIRPORT_NAME_ID WHERE ID='{0}';".format(departure_id))
+        departure_airport = db.fetchone()
     
-    date1 = str(x.strftime("%d"))+" ("+str(x.strftime("%A"))+") "+str(x.strftime("%B"))+" "+str(x.strftime("%Y"))
-
+        db.execute("SELECT NAME FROM AIRPORT_NAME_ID WHERE ID='{0}';".format(aravial_id))
+        aravial_airport = db.fetchone()
+        x = datetime.datetime(int(search[8:12]),int(search[13:15]),int(search[16:18]))
     
-    data = [['Air India','12:30','3:30','3 Hrs','9,999','{0}/1002'],['SpiceJet','12:50','2:30','1.5 Hrs','7,568','{0}/1003'],['Air India','12:30','3:30','3 Hrs','9,999','{0}/1002'],['SpiceJet','12:50','2:30','1.5 Hrs','7,568','{0}/1003']]
-    
-    
+        date1 = str(x.strftime("%d"))+" ("+str(x.strftime("%A"))+") "+str(x.strftime("%B"))+" "+str(x.strftime("%Y"))
     
     
-    return render_template('flight_list.html',departure_airport=departure_airport[0],aravial_airport=aravial_airport[0],date = date1,datas=data)
+    
+
+    
+        #data = [['Indigo Airline','12:30','3:30','3 Hrs','9,999','{0}/1002'],['Air India','12:50','2:30','1.5 Hrs','7,568','{0}/1003'],['Air India Express','12:30','3:30','3 Hrs','9,999','{0}/1002'],['Vistra Airline','12:50','2:30','1.5 Hrs','7,568','{0}/1003']]
+    
+        db.execute("SELECT NAME, DEPARTURE_TIME, ARRIVAL_TIME,DURATION,RATE,ID FROM FLIGHT WHERE DEPARTURE_AIRPORT_ID='{0}' AND ARRIVAL_AIRPORT_ID='{1}' AND DATE='{2}';".format(departure_id,aravial_id,date))
+        data = db.fetchall()
+        print(data)
+        datas = []
+        for i in data:
+            a = list(i)
+            a[5] = str(search) +"/"+ str(a[5])
+            datas.append(a)
+            print(datas)
+        nul = "0"
+        if data == []:
+            nul = "1"
+     
+    
+        return render_template('flight_list.html',username=username,logined=login_status,departure_airport=departure_airport[0],aravial_airport=aravial_airport[0],date = date1,datas=datas,nul=nul)
 
 
 
@@ -261,13 +282,79 @@ def search(search):
 
 
 
-@app.route('/flight/<search>/<flight_id>')
+@app.route('/flight/<search>/<flight_id>',methods=['GET','POST'])
 def flight_page(search,flight_id):
+    
+    if request.method == "GET":
+        if not session.get("username"):
+            flash("Login to access")
+            return render_template('login.html',username="User",logined=0)
+    
+        else:
+            username = session.get("username")
+            login_status = 1
+        
+            db.execute("SELECT DEPARTURE_AIRPORT_ID,ARRIVAL_AIRPORT_ID, DEPARTURE_TIME,ARRIVAL_TIME,DURATION FROM FLIGHT WHERE ID='{0}';".format(flight_id))
+            data = db.fetchone()
+            print(data)
+            url="http://localhost:5000/flight/"+str(search)+"/"+str(flight_id)
+        
+        
+            return render_template('flight_book.html',username=username,logined=login_status,data=data,url=url)
+        
+        
+    else:
+        username = session.get("username")
+        num = int(request.form['lol'])
+        print(username,flight_id,num)
+        
+        db.execute("SELECT DEPARTURE_AIRPORT_ID,ARRIVAL_AIRPORT_ID,DEPARTURE_TIME,ARRIVAL_TIME,DATE,DURATION FROM FLIGHT WHERE ID='{0}';".format(flight_id))
+        data = db.fetchone()
+        
+        db.execute("SELECT NAME FROM AIRPORT_NAME_ID WHERE ID='{0}';".format(data[0]))
+        dep = db.fetchone()
+        
+        db.execute("SELECT NAME FROM AIRPORT_NAME_ID WHERE ID='{0}';".format(data[1]))
+        arr = db.fetchone()
+        
+        
+        db.execute("INSERT INTO TICKET(PASSANGER,ID,USERNAME,DEPARTURE_AIRPORT,ARRIVAL_AIRPORT, DEPARTURE_TIME,ARRIVAL_TIME,DATE,DURATION) VALUES('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}');".format(num,flight_id,username,dep[0],arr[0],data[2],data[3],data[4],data[5]))
+        database.commit()
+        
+        return redirect("http://localhost:5000/my-tickets", code=302)
+        
+        
+    
+    
+    
+    
+    
+    
+    
+    
     return flight_id
 
 
 
 
+@app.route('/my-tickets')
+def g():
+    if not session.get("username"):
+            flash("Login to access")
+            return render_template('login.html',username="User",logined=0)
+    
+    else:
+        username = session.get("username")
+        login_status = 1
+        
+        db.execute("SELECT * FROM TICKET WHERE USERNAME = '{0}';".format(username))
+        data = db.fetchall()
+        
+            
+        
+        
+        return render_template('tickets.html',username=username,logined=login_status,datas=data)
+    
 
 #app.run(debug=True, port=5001)
 

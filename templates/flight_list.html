@@ -34,7 +34,7 @@
     </div>
 
     <div class="right">
-        
+        {% if nul == '0' %}
         {% for data in datas %}
         <div class="flight-box">
             <div class="flight-img">
@@ -42,8 +42,20 @@
                     <img src="/static/flight-list/SpiceJet.png" style="height: 100px; margin-top: 20px; margin-left: 20px;" >
                     <p style="color: rgb(80, 80, 80); margin-left: 47px; font-size: 22px;">SpiceJet</p>
                 {% elif data[0] == 'Air India' %}
-                    <img src="/static/flight-list/Air-India-Express.png" style="height: 100px; margin-top: 20px; margin-left: 20px;" >
+                    <img src="/static/flight-list/Air-India.png" style="height: 100px; margin-top: 20px; margin-left: 20px;" >
                     <p style="color: rgb(80, 80, 80); margin-left: 47px; font-size: 22px;">Air India</p>
+                {% elif data[0] == 'Air Asia India' %}
+                    <img src="/static/flight-list/Air-Asia-India.png" style="height: 100px; margin-top: 20px; margin-left: 20px;" >
+                    <p style="color: rgb(80, 80, 80); margin-left: 47px; font-size: 22px;">Air Asia India</p>
+                {% elif data[0] == 'Air India Express' %}
+                    <img src="/static/flight-list/Air-India-Express.png" style="height: 100px; margin-top: 20px; margin-left: 20px;" >
+                    <p style="color: rgb(80, 80, 80); margin-left: 47px; font-size: 22px;">Air India Express</p>
+                {% elif data[0] == 'Indigo Airline' %}
+                    <img src="/static/flight-list/Indigo-Airlines.png" style="height: 100px; margin-top: 20px; margin-left: 20px;" >
+                    <p style="color: rgb(80, 80, 80); margin-left: 47px; font-size: 22px;">Indigo Airline</p>
+                {% elif data[0] == 'Vistra Airline' %}
+                    <img src="/static/flight-list/Vistara-Airline.png" style="height: 100px; margin-top: 20px; margin-left: 20px;" >
+                    <p style="color: rgb(80, 80, 80); margin-left: 47px; font-size: 22px;">Vistra Airline</p>
 
                 {% endif %}
             </div>
@@ -67,6 +79,10 @@
             </div>
         </div>
         {% endfor %}
+        {% else %}
+        <h3>NO FLIGHT FOUND IN DATABASE.</h3>
+        {% endif %}
+
 
     </div>
 

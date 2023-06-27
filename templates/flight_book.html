@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}HOME PAGE{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="/static/flight_book/stylesheet.css">
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+{% endblock %}
+
+{% block body %}
+
+<div class="main">
+    <div class="left">
+        <div class="details">
+            <h1>{{ data[0] }} <f>⇢</f> {{ data[1] }}</h1>
+            <h2>{{ departure_airport }} <f1>⇢</f1> {{ aravial_airport }}</h2>
+        </div>
+        <div class="time">
+            <div class="departure">
+                <h1>Departure Time</h1>
+                <h1>{{ data[2] }}</h1>
+            </div>
+            <div class="aravial">
+                <h1>Aravial Time</h1>
+                <h1>{{ data[3] }}</h1>
+            </div>
+            <div class="aravial">
+                <h1>Duration</h1>
+                <h1>{{ data[4] }}</h1>
+            </div>
+        </div>
+        <div class="c">
+        <div class="dis">
+            <h1>Note This Points</h1>
+            <li><b>Be all set for security screening</b></li>
+            <li><b>Put your phone on silent mode</b></li>
+            <li><b>Be considerate and swap seats</b></li>
+            <li><b>No smelly food</b></li>
+        </div>
+        <div class="i">
+            <form action="{{ url }}" method="post">
+                <h1>Enter number of passanger</h1>
+                <input style="height: 30;width: 200px;" name="lol" type="number" placeholder="Enter number of passanger">
+                <button type="submit">Book</button>
+            </form>
+        </div>
+        </div>
+
+
+
+    </div>
+
+</div>
+
+
+
+{% endblock %}

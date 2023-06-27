@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}MY TICKETS{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="/static/tickets/stylesheet.css">
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+{% endblock %}
+
+{% block body %}
+<br>
+<br><br>
+<br>
+{% for data in datas %}
+<br>
+<br>
+    <div class="ticket">
+        <div class="l">
+        <h2 style="text-align: center;">FLIGHT TICKET</h2>
+        <h1>NAME: <i>{{ data[3] }}</i></h1>
+        <h1>NUMBER OF PASSANGER: <i>{{ data[1] }}</i></h1>
+        <h1>DEPARTURE_AIRPORT: <i>{{ data[4] }}</i></h1>
+        <h1>ARRIVAL_AIRPORT: <i>{{ data[5] }}</i></h1>
+        <h1>DATE: <i>{{ data[8] }}</i></h1>
+        <h1>DEPARTURE_TIME: <i>{{ data[6] }}</i></h1>
+        <h1>ARRIVAL_TIME: <i>{{ data[7] }}</i></h1>
+        <h1>DURATION: <i>{{ data[9] }}</i></h1>
+        </div>
+        <div>
+        <div class="v">
+            <img src="/static/tickets/img.png">
+
+        </div>
+    </div>
+    </div>
+{% endfor %}
+
+
+
+{% endblock %}
